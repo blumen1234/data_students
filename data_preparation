@@ -1,0 +1,85 @@
+#%%
+import pandas as pd
+import numpy as np
+#from pandas_profiling import ProfileReport
+#import seaborn as sns
+import matplotlib.pyplot as plt
+
+# for Q-Q plots
+import scipy.stats as stats
+# from feature-engine
+# from feature-engine
+from feature_engine.imputation import (
+    AddMissingIndicator,
+    MeanMedianImputer,
+    CategoricalImputer,
+)
+
+import plotly.express as px
+
+import plotly.graph_objs as go
+from plotly.figure_factory import create_scatterplotmatrix
+from plotly.subplots import make_subplots
+
+
+# to split the datasets
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+#%%
+X_test = pd.read_csv("StudentsPerformance.csv")
+ytest = pd.read_csv("StudentsPerformance.csv")
+
+X_test.info()
+
+#%%
+print("Shape of X Test: {}".format(X_test.shape))
+
+print("Shape of y Test: {}".format(ytest.shape))
+#%%
+X_test = [
+    go.Histogram( x = X_test['gender'])
+    ]
+
+fig = go.Figure(X_test)
+fig.update_xaxes(title_text='Sex')
+fig.update_yaxes(title_text='Totale Anzahl')
+fig.show()
+
+#%%
+fig = make_subplots(rows=2, cols=2)
+
+fig.add_trace(
+     go.Histogram( x = X_test['test preparation course'],
+                  histnorm = 'probability'),
+    row=1, col=1
+)
+
+fig.add_trace(
+     go.Histogram( x = X_test['math score'],
+                  histnorm = 'probability'),
+    row=1, col=2
+)
+
+fig.add_trace(
+    go.Box( x = X_test['gender']),
+    row = 2, col = 1
+)
+
+fig.add_trace(
+    go.Box( x = X_test['test preparation course']),
+    row = 2, col = 2
+)
+
+# Update xaxis properties
+fig.update_xaxes(title_text="mit preparation", row=1, col=1)
+fig.update_xaxes(title_text="math score", row=1, col=2)
+fig.update_xaxes(title_text="gender",range = [0,2], row=2, col=1)
+fig.update_xaxes(title_text="math score", range = [0,2], row=2, col=2)
+
+# Update yaxis properties
+fig.update_yaxes(title_text="Anteil in Prozent", row=1, col=1)
+fig.update_yaxes(title_text="Anteil in Prozent", row=1, col=2)
+
+fig.update_layout(height=600, width=800, title_text="Side By Side Subplots")
+fig.show()
+#%%
