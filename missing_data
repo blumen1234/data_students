@@ -1,0 +1,45 @@
+#%%
+## Lade Paket
+#%%
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# for Q-Q plots
+import scipy.stats as stats
+# from feature-engine
+# from feature-engine
+from feature_engine.imputation import (
+    AddMissingIndicator,
+    MeanMedianImputer,
+    CategoricalImputer,
+)
+
+import plotly.express as px
+
+# to split the datasets
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+
+#%%
+students = pd.read_csv("StudentsPerformance.csv")
+students.head()
+#%%
+students.isnull().any()
+#keine fehlende Werte
+
+#%%
+X = students.drop(columns = ['test preparation course','lunch'])
+
+X.head()
+#%%
+students.shape
+#%%
+
+#%%
+y = students['gender']
+X = students['math score']
+print("The shape of the data set with training varialbes is: {}".format(X.shape))
+print("The shape of the target variable is: {}".format(y.shape))
+
+#%%
